@@ -1,7 +1,16 @@
+class MockResponse 
+	def body 
+		"ff961dc5e8da688fa78540651160b223 OK" 
+	end
+	def status 
+		200 
+	end
+end
+
 class RubyCellsynt
 	VERSION = "0.1.1"
-	
-	def self.send_message(phone_numbers:, from_name:, text:, invoice_reference: nil, username: nil, password: nil)
+
+	def self.send_message(phone_numbers:, from_name:, text:, invoice_reference: nil, username: nil, password: nil, mock: false)
 		# simple validation to make sure numbers are in the right format
 		# TODO
 
@@ -61,7 +70,12 @@ class RubyCellsynt
 		puts "HTTP request params = #{params}"
 
 		# execute post!
-		response = Faraday.post 'https://se-1.cellsynt.net/sms.php', params
+		if not mock
+			response = Faraday.post 'https://se-1.cellsynt.net/sms.php', params
+		else
+			# just for testing
+			response = MockResponse.new
+		end
 
 		puts "HTTP status = #{response.status}"
 		puts "HTTP response body: #{response.body}"

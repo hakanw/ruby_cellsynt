@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency "launchy"
   s.add_development_dependency "rspec", "~>2.5.0"
+  s.add_development_dependency "minitest"
   s.add_runtime_dependency "faraday", '~> 0.9.0'
 
   s.files         = `git ls-files`.split("\n")
