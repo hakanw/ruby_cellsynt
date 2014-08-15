@@ -8,8 +8,6 @@ class MockResponse
 end
 
 class RubyCellsynt
-	VERSION = "0.1.2"
-
 	def self.send_message(phone_numbers:, from_name:, text:, invoice_reference: nil, username: nil, password: nil, mock: false)
 		# simple validation to make sure numbers are in the right format
 		# TODO
