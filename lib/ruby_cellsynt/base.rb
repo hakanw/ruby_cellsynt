@@ -1,4 +1,4 @@
-class Cellsynt
+class RubyCellsynt
 	def self.send_message(phone_numbers:, from_name:, text:, invoice_reference: nil, username: nil, password: nil)
 		# simple validation to make sure numbers are in the right format
 		# TODO
