@@ -2,6 +2,10 @@ require "minitest/autorun"
 require 'ruby_cellsynt'
 
 class CellsyntTest < MiniTest::Unit::TestCase
+  def test_version_exists
+    assert_instance_of String, RubyCellsynt::VERSION
+  end
+
   def test_simple_send
     assert_nil RubyCellsynt.send_message(
       phone_numbers: ["0046735701385"], 
