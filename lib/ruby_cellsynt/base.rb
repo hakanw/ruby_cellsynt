@@ -65,10 +65,9 @@ class RubyCellsynt
 			:text => text.encode(Encoding::ISO_8859_1),
 			:originatortype => 'alpha',
 			:originator => from_name,
-			:allow_concat => 6
+			:allow_concat => 6,
+			:cusref => invoice_reference
 		}
-
-		# TODO: invoice ref
 
 		puts "HTTP request params = #{params}"
 
