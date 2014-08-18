@@ -1,6 +1,11 @@
 class MockResponse 
+	def initialize(params)
+		@params = params
+	end
 	def body 
-		"ff961dc5e8da688fa78540651160b223 OK" 
+		# return as many success responses as input phone numbers
+		bogus_refs = (['3452rfwfwer234234'] * @params[:destination].split(",").length).join(",")
+		"OK: #{bogus_refs}" 
 	end
 	def status 
 		200 
@@ -72,7 +77,17 @@ class RubyCellsynt
 			response = Faraday.post 'https://se-1.cellsynt.net/sms.php', params
 		else
 			# just for testing
-			response = MockResponse.new
+			response = MockResponse.new(params)
+		end
+
+		status, message_references = response.body.split " "
+
+		if status == "OK:"
+			# success! message_references is a comma-separated list of IDs to check for progress
+			return message_references.split ","
+		else
+			# fail. in this case, message_references will be an error message from Cellsynt
+			raise "Cellsynt error: #{message_references}"
 		end
 
 		puts "HTTP status = #{response.status}"
