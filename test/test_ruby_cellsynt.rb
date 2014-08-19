@@ -29,7 +29,7 @@ class CellsyntTest < MiniTest::Unit::TestCase
   end
 
   def test_too_long_name
-    assert_raises(RuntimeError) do 
+    assert_raises(RubyCellsyntException) do 
       RubyCellsynt.send_message(
         phone_numbers: ["0046735701385"], 
         from_name: "This name is too long", 
