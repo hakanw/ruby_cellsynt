@@ -1,3 +1,6 @@
+class RubyCellsyntException < StandardError
+end
+
 class MockResponse 
 	def initialize(params)
 		@params = params
@@ -21,9 +24,9 @@ class RubyCellsynt
 
 		# validate phone numbers
 		if phone_numbers.length > 25000
-			raise "Too many phone numbers at once! Max for Cellsynt is 25k in one batch."
+			raise RubyCellsyntException.new("Too many phone numbers at once! Max for Cellsynt is 25k in one batch.")
 		elsif phone_numbers.length == 0
-			raise "No phone number specified"
+			raise RubyCellsyntException.new("No phone number specified")
 		else
 			# validate each number
 			phone_numbers.each do |number|
@@ -34,17 +37,17 @@ class RubyCellsynt
 		# validate SMS text
 		# TODO: support unicode
 		if not text
-			raise "No SMS message text specified!"
+			raise RubyCellsyntException.new("No SMS message text specified!")
 		elsif text.length > 5 * 153
-			raise "SMS text is too long. Max length is #{5*153} characters"
+			raise RubyCellsyntException.new("SMS text is too long. Max length is #{5*153} characters")
 		end
 
 		# validate from name
 		# TODO: support other things than ascii from (phone number, short number)
 		if not from_name
-			raise "No from_name specified! This needs to be a name the organization can legally use."
+			raise RubyCellsyntException.new("No from_name specified! This needs to be a name the organization can legally use.")
 		elsif from_name !~ /^[a-zA-Z0-9]{1,11}$/
-			raise "Forbidden from name. Needs to be 1-11 characters, a-z A-Z and 0-9 characters allowed only."
+			raise RubyCellsyntException.new("Forbidden from name. Needs to be 1-11 characters, a-z A-Z and 0-9 characters allowed only.")
 		end
 
 		# validate auth settings
@@ -52,7 +55,7 @@ class RubyCellsynt
 		password = password or ENV['CELLSYNT_PASSWORD']
 
 		if username.nil? or password.nil?
-			raise "No Cellsynt username or password specified!"
+			raise RubyCellsyntException.new("No Cellsynt username or password specified!")
 		end
 
 		# join all phone numbers into one parameter
@@ -86,7 +89,7 @@ class RubyCellsynt
 			return message_references.split ","
 		else
 			# fail. in this case, message_references will be an error message from Cellsynt
-			raise "Cellsynt error: #{message_references}"
+			raise RubyCellsyntException.new("Cellsynt error: #{message_references}")
 		end
 
 		puts "HTTP status = #{response.status}"
