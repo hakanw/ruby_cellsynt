@@ -13,6 +13,9 @@ class MockResponse
 	def status 
 		200 
 	end
+	def success?
+		true
+	end
 end
 
 class RubyCellsynt
@@ -72,8 +75,6 @@ class RubyCellsynt
 			:cusref => invoice_reference
 		}
 
-		puts "HTTP request params = #{params}"
-
 		# execute post!
 		if not mock
 			response = Faraday.post 'https://se-1.cellsynt.net/sms.php', params
@@ -82,18 +83,19 @@ class RubyCellsynt
 			response = MockResponse.new(params)
 		end
 
-		status, message_references = response.body.split " "
+		if response.success?
+			status, message_references = response.body.split " "
 
-		if status == "OK:"
-			# success! message_references is a comma-separated list of IDs to check for progress
-			return message_references.split ","
+			if status == "OK:"
+				# success! message_references is a comma-separated list of IDs to check for progress
+				return message_references.split ","
+			else
+				raise RubyCellsyntException.new("Error: malformed Cellsynt response: #{response.body}")
+			end
+			
 		else
-			# fail. in this case, message_references will be an error message from Cellsynt
-			raise RubyCellsyntException.new("Cellsynt error: #{message_references}")
+			raise RubyCellsyntException.new("Cellsynt server error: #{response.body}")
 		end
-
-		puts "HTTP status = #{response.status}"
-		puts "HTTP response body: #{response.body}"
 
 	end
 end
