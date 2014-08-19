@@ -90,9 +90,9 @@ class RubyCellsynt
 				# success! message_references is a comma-separated list of IDs to check for progress
 				return message_references.split ","
 			else
-				raise RubyCellsyntException.new("Error: malformed Cellsynt response: #{response.body}")
+				raise RubyCellsyntException.new("Cellsynt server error: #{response.body}")
 			end
-			
+
 		else
 			raise RubyCellsyntException.new("Cellsynt server error: #{response.body}")
 		end
