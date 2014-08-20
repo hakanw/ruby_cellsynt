@@ -49,8 +49,8 @@ class RubyCellsynt
 		# TODO: support other things than ascii from (phone number, short number)
 		if not from_name
 			raise RubyCellsyntException.new("No from_name specified! This needs to be a name the organization can legally use.")
-		elsif from_name !~ /^[a-zA-Z0-9]{1,11}$/
-			raise RubyCellsyntException.new("This SMS sender name is not allowed. It needs to be 1-11 characters, a-z A-Z and 0-9 characters allowed only.")
+		elsif from_name !~ /^[a-zA-Z0-9åäöÅÄÖ]{1,11}$/
+			raise RubyCellsyntException.new("This SMS sender name is not allowed. It needs to be 1-11 characters long, and contain only a-z åäö characters and digits allowed only.")
 		end
 
 		# validate auth settings
