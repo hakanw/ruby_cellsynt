@@ -70,7 +70,7 @@ class RubyCellsynt
 			:destination => phone_numbers,  
 			:text => text.encode(Encoding::ISO_8859_1),
 			:originatortype => 'alpha',
-			:originator => from_name,
+			:originator => from_name.encode(Encoding::ISO_8859_1),
 			:allow_concat => 6,
 			:cusref => invoice_reference
 		}
