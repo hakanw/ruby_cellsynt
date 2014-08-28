@@ -54,8 +54,8 @@ class RubyCellsynt
 		end
 
 		# validate auth settings
-		username = username or ENV['CELLSYNT_USERNAME']
-		password = password or ENV['CELLSYNT_PASSWORD']
+		username = (username or ENV['CELLSYNT_USERNAME'])
+		password = (password or ENV['CELLSYNT_PASSWORD'])
 
 		if username.nil? or password.nil?
 			raise RubyCellsyntException.new("No Cellsynt username or password specified!")
